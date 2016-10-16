@@ -4,6 +4,9 @@ const clarifai = require('clarifai');
 const Promise = require('bluebird');
 const base64 = require('node-base64-image');
 const querystring = require('querystring');
+const emoji = require('emoji-from-word');
+const emojiImage = require('emojis');
+const path = require('path');
 
 function* getCaption() {
 	let json = querystring.parse(this.querystring);
@@ -17,7 +20,8 @@ function* getCaption() {
 
 	app.getToken();
 	let words = {};
-	let hashtags = {};
+	let hashtags = [];
+	let emojis = [];
 	if (json.imageURL) {
 		yield app.models.predict(Clarifai.GENERAL_MODEL, json.imageURL).then(
 			function(response) {
@@ -27,7 +31,8 @@ function* getCaption() {
 					let info = imageData[i];
 					words[info.name] = info.value;
 					if (info.value >= 0.9) {
-						hashtags[i] = '#' + info.name;
+						hashtags.push('#' + info.name);
+						emojis.push(emoji(info.name).toString());
 					}
 				}
 			},
@@ -86,11 +91,29 @@ function* getCaption() {
 		throw new Error('Need image location');
 	}
 
-	console.log(words);
-	console.log(hashtags);
+	const file = process.env.CLOUD_DIR + '/' + 'database.db';
+
+	let quotes = [];
+
+	let db = new sqlite3.Database(path.resolve('../database.db'));
+	//console.log("Database Creation worked");
+	db.all('SELECT q.content FROM Quotes q JOIN Categories c ON q.category = c.id AND c.name = \'' + json.mood + '\'', function(err, rows) {
+		console.log("database thing entered");
+		rows.forEach(function (row) {  
+			console.log(row.content);
+	       quotes.push(row.content);  
+	    })
+	});
+	db.close();
+
+	//console.log(words);
+	//console.log(hashtags);
+	//console.log(emojis);
+	console.log(quotes.toString());
 	this.body = {
-		words,
-		hashtags
+		"captions": quotes,
+		"emojis": emojis,
+		"hashtags": hashtags
 	}
 
 }
