@@ -2,13 +2,11 @@ const fs = require('fs');
 const sqlite3 = require('sqlite3').verbose();
 const clarifai = require('clarifai');
 const Promise = require('bluebird');
-//const getMoodQuotes = require('./getMoodQuotes');
-
-//const file = process.env.CLOUD_DIR + '/' _ 'test.db';
+const base64 = require('node-base64-image');
+const querystring = require('querystring');
 
 function* getCaption() {
-	let json = this.request.body;
-	console.log(json.imageURL);
+	let json = querystring.parse(this.querystring);
 	this.body = 'ok';
 	this.status = 200;
 	
@@ -19,6 +17,7 @@ function* getCaption() {
 
 	app.getToken();
 	let words = {};
+	let hashtags = {};
 	if (json.imageURL) {
 		yield app.models.predict(Clarifai.GENERAL_MODEL, json.imageURL).then(
 			function(response) {
@@ -27,16 +26,33 @@ function* getCaption() {
 				for(let i = 0; i < imageData.length; i++) {
 					let info = imageData[i];
 					words[info.name] = info.value;
+					if (info.value >= 0.9) {
+						hashtags[i] = '#' + info.name;
+					}
 				}
 			},
 			function(err) {
-				console.log(err);
 				throw err;
 			}
 		);
 	} else if (json.imageLocal) {
-		//stream bytes from local image
-		//let bytes = streamedBytes();
+		base64.encode(json.imageLocal, {string: true}, function(err, res) {
+			console.log(res);
+			app.models.predict(Clarifai.GENERAL_MODEL, {base64: res}).then(
+				function(response) {
+					let imageData = response.data.outputs[0].data.concepts;
+
+					for(let i = 0; i < imageData.length; i++) {
+						let info = imageData[i];
+						words[info.name] = info.value;
+					}
+				},
+				function(err) {
+					throw err;
+				}
+			);
+		});
+
 		// let stream = fs.createReadStream(json.imageLocal);
 		// let image;
 		// stream.on('readable', function() {
@@ -47,14 +63,20 @@ function* getCaption() {
 		// });
 
 		// stream.on('end', function() {
-		// 	app.models.predict(Clarifai.GENERAL_MODEL, {base64: image}).then(
-		// 		function(response) {
-		// 			console.log(response);
-		// 		},
-		// 		function(err) {
-		// 			throw err;
-		// 		}
-		// 	);
+		// 	console.log(image);
+			// app.models.predict(Clarifai.GENERAL_MODEL, {base64: image}).then(
+			// 	function(response) {
+			// 		let imageData = response.data.outputs[0].data.concepts;
+
+			// 		for(let i = 0; i < imageData.length; i++) {
+			// 			let info = imageData[i];
+			// 			words[info.name] = info.value;
+			// 		}
+			// 	},
+			// 	function(err) {
+			// 		throw err;
+			// 	}
+			// );
 		// })
 
 		// stream.on('error', function(err) {
@@ -65,23 +87,7 @@ function* getCaption() {
 	}
 
 	console.log(words);
-
-
-	//suppose json of the form:
-	//json = {
-	// 	mood: someMood,
-	//	imageURL: someURL,
-	//	imageLocal: someLocalPath
-	//}
-
-	// let quotes = {};
-
-	// const db = new sqlite3.Database
-	// db.all('SELECT content FROM Quotes q JOIN Categories c ON q.category = c.id AND c.name = ' + json.mood, function(err, row) {
-	// 	quotes.add(row.content);
-	// })
-
-	// db.close();
+	console.log(hashtags);
 
 }
 
