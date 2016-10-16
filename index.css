@@ -3,9 +3,12 @@ div {
 }
 
 #moods {
-	width: 30%;
+	width: 40%;
 	margin-left: auto;
 	margin-right: auto;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	padding: 5px;
 }
 
 #moods div {
@@ -13,7 +16,7 @@ div {
 }
 
 .panel-body {
-	width: 60%;
+	width: 70%;
 	border: 2px solid red;
 }
 
@@ -22,7 +25,77 @@ div {
 }
 
 .nav-tabs {
-	width: 40%;
+	width: 60%;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+body {
+	background-color: #CDCDCD;
+	color: #031424;
+	font-family:  "Lucida Console", Monaco, monospace;
+	font-size: 10pt;
+}
+
+#maincontent {
+	background-color: #8EAEBD;
+	width: 85%;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 20px;
+	padding: 15px;
+	padding-bottom: 40px;
+}
+
+.radio {
+	display: inline;
+	margin: 6px;
+}
+
+.tab {
+	color: #031424;
+}
+
+#blurb {
+	font-size: 9pt;
+	padding: 5px;
+	margin: 5px;
+}
+
+button {
+	width: 20%
+}
+
+#submit {
+	margin: 10px;
+	margin-bottom: 20px;
+}
+
+#answer-area, #caption-builder {
+	width: 60%;
+	height: 150px;
+	border: 1px solid #CDCDCD;
+	background-color: #CDCDCD;
+	border-radius: 10px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding: 5px;
+}
+
+h1 {
+	font-size: 40px;
+}
+
+label {
+	padding: 5px;
+}
+
+#upload {
+	font-size: 16pt;
+}
+
+#answer-area {
+	margin-bottom: 20px;
 }
