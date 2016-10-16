@@ -1,7 +1,28 @@
-body {
+div {
 	text-align: center;
 }
 
-.panel-default {
+#moods {
+	width: 30%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#moods div {
+	text-align: left;
+}
+
+.panel-body {
 	width: 60%;
+	border: 2px solid red;
+}
+
+.btn-group {
+	padding: 15px;
+}
+
+.nav-tabs {
+	width: 40%;
+	margin-left: auto;
+	margin-right: auto;
 }
