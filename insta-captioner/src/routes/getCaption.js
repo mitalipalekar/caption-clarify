@@ -88,6 +88,10 @@ function* getCaption() {
 
 	console.log(words);
 	console.log(hashtags);
+	this.body = {
+		words,
+		hashtags
+	}
 
 }
 

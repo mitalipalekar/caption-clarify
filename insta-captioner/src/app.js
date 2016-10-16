@@ -7,8 +7,14 @@ const PORT = 3102;
 
 let app = koa();
 
+app.use(function*(next){
+	this.set('Access-Control-Allow-Origin', '*');
+    this.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+    yield next;
+})
+
 app.use(bodyParser());
-app.use(route.post('/captioner/caption', getCaption));
+app.use(route.get('/captioner/caption', getCaption));
 
 if (!module.parent) {
 	const start = () => {
