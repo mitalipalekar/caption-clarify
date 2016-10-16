@@ -1,45 +1,48 @@
 const fs = require('fs');
 const sqlite3 = require('sqlite3');
 const clarifai = require('clarifai');
+const Promise = require('bluebird');
 
 //const file = process.env.CLOUD_DIR + '/' _ 'test.db';
 
 function* getCaption() {
 	let json = this.request.body;
-	this.status = 'ok';
+	this.body = 'ok';
+	this.status = 200;
 	
 	console.log(1);
-	// const app = new Clarifai.App(
-	// 	'bYzCnxBuFjCnWxguqTAsQLOpTyfBZQPT8l6vIBXE',
-	// 	'ErHG-l_1gCgI3JjtV6VutSN0aimQPk1mYyTzJYI9'
-	// );
+	const app = new Clarifai.App(
+		'bYzCnxBuFjCnWxguqTAsQLOpTyfBZQPT8l6vIBXE',
+		'ErHG-l_1gCgI3JjtV6VutSN0aimQPk1mYyTzJYI9'
+	);
 
-	// app.getToken();
-	// console.log(2);
-	// if (json.imageURL) {
-	// 	console.log(3);
-	// 	app.models.predict(Clarifai.GENERAL_MODEL, json.imageURL).then(
-	// 		function(response) {
-	// 			console.log(4);
-	// 			console.log(response);
-	// 		},
-	// 		function(err) {
-	// 			throw err;
-	// 		}
-	// 	);
-	// } else if (json.imageLocal) {
-	// 	//stream bytes from local image
-	// 	//let bytes = streamedBytes();
+	app.getToken();
+	console.log(2);
+	if (json.imageURL) {
+		console.log(3);
+		app.models.predict(Clarifai.GENERAL_MODEL, json.imageURL).then(
+			function(response) {
+				console.log(4);
+				console.log(response);
+			},
+			function(err) {
+				console.log(err);
+				throw err;
+			}
+		);
+	} else if (json.imageLocal) {
+		//stream bytes from local image
+		//let bytes = streamedBytes();
 
-	// 	app.models.predict(Clarifai.GENERAL_MODEL, {base64: bytes}).then(
-	// 		function(response) {
-	// 			console.log(response);
-	// 		},
-	// 		function(err) {
-	// 			throw err;
-	// 		}
-	// 	);
-	// }
+		app.models.predict(Clarifai.GENERAL_MODEL, {base64: bytes}).then(
+			function(response) {
+				console.log(response);
+			},
+			function(err) {
+				throw err;
+			}
+		);
+	}
 
 
 	//suppose json of the form:
@@ -59,3 +62,5 @@ function* getCaption() {
 	// db.close();
 
 }
+
+module.exports = getCaption;

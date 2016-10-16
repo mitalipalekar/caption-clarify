@@ -1,7 +1,6 @@
 const chai = require('chai');
 const expect = chai.expect;
 const supertest = require('co-supertest');
-//const app = require('../../src/app');
 const koa = require('koa');
 const route = require('koa-route');
 const bodyParser = require('koa-bodyparser');
