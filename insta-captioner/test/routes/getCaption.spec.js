@@ -20,14 +20,16 @@ describe('getCaption function', function() {
 		agent = supertest.agent(app.listen());
 	})
 
-	it ('should do what I want', function*() {
-		yield agent.post('/captioner/caption')
+	it ('should do what I want', function(done) {
+		agent.post('/captioner/caption')
 			.set('Content-Type', 'application/json')
 			.send({
 				mood: 'happy',
 				imageURL: 'http://cdn.skim.gs/image/upload/v1456344012/msi/Puppy_2_kbhb4a.jpg'
+				//imageLocal: '/Users/christinewolf/Documents/DubHacks2016/caption-clarify/insta-captioner/src/routes/happy.jpg'
 			})
 			.expect(200)
-			.end();
+			.end(done);
+
 	})
 });
