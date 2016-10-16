@@ -1,7 +1,8 @@
 window.onload = function() {
-	// document.getElementById("cap_place").onclick = displayCaption;
-	// document.getElementById("emoji_place").onclick = displayEmoji;
-	// document.getElementById("hashtag_place").onclick = displayHashtag;
+	displayCaption();
+	document.getElementById("caption_place").onclick = displayCaption;
+	document.getElementById("emoji_place").onclick = displayEmoji;
+	document.getElementById("hashtag_place").onclick = displayHashtag;
 	document.getElementById("goButton").onclick = makeRequest;
 };
 
@@ -34,16 +35,16 @@ function makeRequest() {
 }
 
 function processData() {
-	console.log(this);
 	var results = JSON.parse(this.response);
-	alert('here');
 	var hashDiv = document.getElementById("hashtag");
-	console.log(results);
-	hashDiv.innerHTML = results.hashtags;
+	hashDiv.innerHTML = results.hashtags.toString();
+	console.log(results.hashtags);
 	var capDiv = document.getElementById("caption");
-	hashDiv.innerHTML = results.captions;
+	capDiv.innerHTML = results.captions.toString();
+	console.log(results.captions);
 	var emojDiv = document.getElementById("emoji");
-	emojDiv.innerHTML = results.emojis;
+	emojDiv.innerHTML = results.emojis.toString();
+	console.log(results.emojis);
 	document.getElementById("results").style.display = "block";
 	link(results.hashtags);
 	link(results.captions);

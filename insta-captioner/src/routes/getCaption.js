@@ -100,7 +100,7 @@ function* getCaption() {
 	db.all('SELECT q.content FROM Quotes q JOIN Categories c ON q.category = c.id AND c.name = \'' + json.mood + '\'', function(err, rows) {
 		console.log("database thing entered");
 		rows.forEach(function (row) {  
-			console.log(row.content);
+			//console.log(row.content);
 	       quotes.push(row.content);  
 	    })
 	});
@@ -109,6 +109,8 @@ function* getCaption() {
 	//console.log(words);
 	//console.log(hashtags);
 	//console.log(emojis);
+
+	quotes.push("Friendship makes the heart grow fonder");
 	console.log(quotes.toString());
 	this.body = {
 		"captions": quotes,
