@@ -99,3 +99,7 @@ label {
 #answer-area {
 	margin-bottom: 20px;
 }
+
+#hashtag, #emoji, #caption {
+	overflow: hidden;
+}
