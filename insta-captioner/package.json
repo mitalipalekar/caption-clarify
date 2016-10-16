@@ -1,0 +1,23 @@
+{
+  "name": "insta-captioner",
+  "version": "1.0.0",
+  "description": "Creates instagram captions from photos based on mood and other customization factors",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Christine Wolf",
+  "license": "ISC",
+  "dependencies": {
+    "clarifai": "^2.0.9",
+    "koa": "^1.2.4",
+    "koa-bodyparser": "^2.2.0",
+    "koa-route": "^2.4.2",
+    "sqlite3": "^3.1.6"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2",
+    "supertest": "^2.0.0"
+  }
+}
